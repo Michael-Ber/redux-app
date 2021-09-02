@@ -1,41 +1,26 @@
-import {createStore} from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './reducer';
+import App from './components/app';
 
-const reducer = (state = 0, action = {}) => {
-	switch(action.type) {
-		case 'INC': return state + 1;
-		case 'DEC': return state - 1;
-		case 'RES': return 0;
-		default: return state;
-	}
-
-}
 
 const store = createStore(reducer);
 
-const plus = document.querySelector('.main__btn.plus'),
-	  minus = document.querySelector('.main__btn.minus'),
-	  reset = document.querySelector('.main__btn.reset'),
-	  count = document.getElementById('count');
+// const { inc, dec, res } = bindActionCreators(actions, dispatch);
 
-const update = () => {
-	count.textContent = store.getState();
-}
-update(); //инициализация начального состояния
-store.subscribe(update); // при каждом изменении state вызывается update()
-plus.addEventListener('click', () => {
-	store.dispatch(inc());
-	count.textContent = store.getState();
-});
-
-minus.addEventListener('click', () => {
-	store.dispatch(dec());
-});
-
-reset.addEventListener('click', () => {
-	store.dispatch(res());
-});
+// const update = () => {
+ReactDOM.render(
+<Provider store = {store}>  {/*теперь все приложение имеет доступ к store*/}
+	<App/>  {/*также в Provider включен механизм отслеживания изменений, т.е subscribe не нужен*/}
+</Provider>, document.getElementById('root'));
+// }
 
 
-const inc = () => ({type : 'INC'});
-const dec = () => ({type : 'DEC'});
-const res = () => ({type: 'RES'});
+// update(); //инициализация начального состояния
+// store.subscribe(update); // при каждом изменении state вызывается update()
+
+
+
+
